@@ -1,0 +1,337 @@
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BetSmart - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #1a1a1a;
+            min-height: 100vh;
+        }
+
+        /* Menu Superior */
+        .top-menu {
+            background: #1a1a1a;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .menu-links a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: color 0.3s;
+        }
+
+        .menu-links a:hover {
+            color: #00ff88;
+        }
+
+        /* Container de Login */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 70px);
+            padding: 2rem;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3rem;
+            border-radius: 15px;
+            width: 100%;
+            max-width: 450px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h1 {
+            color: #00ff88;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            color: #fff;
+            opacity: 0.8;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .form-group label {
+            display: block;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            max-width: 250px;         
+            padding: 0.6rem;          
+            margin: 0 auto 1rem;     
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            display: block;
+            transition: all 0.3s;
+            font-size: 1.2rem;     
+        }
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #00ff88;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+            transform: scale(1.02); 
+            transition: all 0.3s ease;
+        }
+
+        .login-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            color: #fff;
+            order: 2;
+        }
+
+        .remember-me input {
+            margin-right: 0.5rem;
+        }
+
+        .forgot-password {
+            color: #00ff88;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            order: 1;
+        }
+
+        .forgot-password:hover {
+            opacity: 0.8;
+        }
+
+        .submit-btn {
+            width: 50%;
+            min-width: 200px;
+            padding: 2rem;
+            background: #00ff88;
+            color: #1a1a1a;
+            border: none;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+            margin: 1rem auto;
+            display: block;
+            font-size: 1.1rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .social-login {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .social-divider {
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.3);
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        
+        .social-divider::before,
+        .social-divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        
+        .social-divider::before {
+            margin-right: 0.5em;
+        }
+        
+        .social-divider::after {
+            margin-left: 0.5em;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s;
+        }
+
+        .social-btn.google {
+            background: #4285F4;
+            color: white;
+        }
+
+        .social-btn.facebook {
+            background: #3b5998;
+            color: white;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #fff;
+        }
+
+        .register-link a {
+            color: #00ff88;
+            text-decoration: none;
+            margin-left: 0.5rem;
+        }
+
+        .errorlist {
+            color: #ff4444;
+            margin-bottom: 1rem;
+            list-style: none;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .login-card {
+                padding: 2rem;
+            }
+            
+            .login-header h1 {
+                font-size: 2rem;
+            }
+            
+            .social-buttons {
+                flex-direction: column;
+            }
+
+            .submit-btn {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Menu Superior -->
+    <nav class="top-menu">
+        <div class="logo">
+            <a href="{% url 'home' %}" style="text-decoration: none; color: inherit;">BetSmart</a>
+        </div>
+        <div class="menu-links">
+            <a href="{% url 'home' %}">Voltar ao Site</a>
+        </div>
+    </nav>
+
+    <!-- Container de Login -->
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>Acesso à Conta</h1>
+                <p>Introduza as suas credenciais de acesso</p>
+            </div>
+
+            <form method="post">
+                {% csrf_token %}
+                
+
+                {% if form.non_field_errors %}
+                    <div class="errorlist">
+                        {% for error in form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="id_username">Nome de Utilizador</label>
+                    {% render_field form.username placeholder='username' class+='form-control' %}
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password">Palavra-passe</label>
+                    {% render_field form.password placeholder='password' class+='form-control' %}
+                </div>
+
+                <div class="login-options">
+                    <a href="#" class="forgot-password">Recuperar palavra-passe</a>
+                    <label class="remember-me">
+                        <input type="checkbox"> Lembrar-me
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">Entrar</button>
+
+                <div class="social-login">
+                    <div class="social-divider">ou entre com</div>
+                    
+                    <div class="social-buttons">
+                        <a href="#" class="social-btn google">
+                            <i class="fab fa-google"></i>
+                            Google
+                        </a>
+                        <a href="#" class="social-btn facebook">
+                            <i class="fab fa-facebook-f"></i>
+                            Facebook
+                        </a>
+                    </div>
+                </div>
+
+                <div class="register-link">
+                    Não tem conta? <a href="{% url 'register' %}">Registar agora</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

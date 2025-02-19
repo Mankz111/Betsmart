@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Planos - BetSmart</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Arial", sans-serif;
+    }
+
+    /* Menu Superior */
+    .top-menu {
+      background: #1a1a1a;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      color: #fff;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .menu-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .menu-links a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .menu-links a:hover {
+      color: #00ff88;
+    }
+
+    /* Dropdown do Utilizador - ATUALIZADO */
+    .user-dropdown {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    /* Link direto para o perfil */
+    .user-profile-link {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem;
+    }
+
+    /* Botão para abrir/fechar o dropdown */
+    .dropdown-toggle {
+      background: transparent;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    /* Ajustado para abrir abaixo */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%; /* Posiciona logo abaixo do elemento pai */
+      right: 0;
+      background: #fff;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      z-index: 1001;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+
+    .dropdown-content a {
+      color: #333 !important;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .dropdown-content a:hover {
+      background: #f5f5f5;
+      color: #00ff88 !important;
+    }
+
+    /* Exibir dropdown via classe "show" */
+    .dropdown-content.show {
+      display: block;
+    }
+
+    .fa-caret-down {
+      font-size: 0.8em;
+      margin-left: 5px;
+    }
+
+    .fa-user-circle {
+      font-size: 1.2rem;
+    }
+
+    /* Seção de Planos */
+    .plan-section {
+      padding: 5rem 2rem;
+      background: #f8f9fa;
+      text-align: center;
+      margin-top: 80px; /* Espaço para compensar o menu fixo */
+    }
+
+    .plan-section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .plan-section p.subtitle {
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 3rem;
+    }
+
+    .plans-container {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      max-width: 1200px;
+      margin: 0 auto;
+      align-items: stretch;
+    }
+
+    /* Cartões de Plano */
+    .plan-card {
+      background: #fff;
+      width: 300px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      text-align: left;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .plan-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .plan-header {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: #fff;
+      padding: 1rem;
+      font-size: 1.5rem;
+      text-align: center;
+      font-weight: bold;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .plan-header::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+      transform: rotate(30deg);
+    }
+
+    .plan-card.popular::before {
+      content: "MAIS POPULAR";
+      position: absolute;
+      top: 0;
+      right: -60px;
+      transform: rotate(45deg);
+      background: #00ff88;
+      color: #1a1a1a;
+      padding: 0.4rem 1rem;
+      font-weight: bold;
+      font-size: 0.8rem;
+    }
+
+    .plan-body {
+      padding: 2rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .plan-price {
+      font-size: 2rem;
+      margin: 0.5rem 0;
+      color: #333;
+    }
+
+    .plan-price .price-period {
+      font-size: 1rem;
+      color: #666;
+    }
+
+    .plan-discount {
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      color: #ff4757;
+    }
+
+    .plan-features {
+      list-style: none;
+      margin-bottom: 1.5rem;
+      padding-left: 0;
+    }
+
+    .plan-features li {
+      margin-bottom: 0.5rem;
+      color: #555;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .plan-features li i {
+      color: #00ff88;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .feature-text {
+      position: relative;
+      cursor: help;
+    }
+
+    .tooltip {
+      display: none;
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1a1a1a;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-size: 0.8rem;
+      white-space: nowrap;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+
+    .feature-text:hover .tooltip {
+      display: block;
+    }
+
+    .choose-plan {
+      display: inline-block;
+      text-align: center;
+      padding: 0.8rem 1.5rem;
+      border-radius: 30px;
+      background: #00ff88;
+      color: #1a1a1a;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .choose-plan:hover {
+      background: #00cc6e;
+      transform: translateY(-3px);
+    }
+
+    .choose-plan[disabled] {
+      pointer-events: none;
+      opacity: 0.6;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .choose-plan[disabled]::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, 
+        transparent 20%, 
+        rgba(255,255,255,0.2) 50%, 
+        transparent 80%
+      );
+      animation: shine 2s infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-50%) rotate(30deg); }
+      100% { transform: translateX(150%) rotate(30deg); }
+    }
+
+    .trust-badges {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .trust-item i {
+      color: #00ff88;
+      font-size: 1.2rem;
+    }
+
+    @media (max-width: 768px) {
+      .menu-links {
+        display: none;
+      }
+      .plan-card {
+        width: 100%;
+        margin-bottom: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Menu Superior -->
+  <nav class="top-menu">
+    <div class="logo">
+      <a href="/" style="text-decoration: none; color: inherit;">BetSmart</a>
+    </div>
+    <div class="menu-links">
+      <a href="{% url 'about' %}">Sobre</a>
+      
+      {% if user.is_authenticated %}
+        <!-- Dropdown para utilizador logado -->
+        <div class="user-dropdown">
+          <!-- Link direto para o perfil -->
+          <a href="{% url 'profile' %}" class="user-profile-link">
+            <i class="fas fa-user-circle"></i> {{ user.username }}
+          </a>
+          <!-- Botão para abrir/fechar o dropdown -->
+          <button type="button" class="dropdown-toggle">
+            <i class="fas fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="{% url 'profile' %}"><i class="fas fa-user"></i> Perfil</a>
+            <a href="#" onclick="document.getElementById('logoutForm').submit()">
+              <i class="fas fa-sign-out-alt"></i> Sair
+            </a>
+            <!-- Formulário de Logout Escondido -->
+            <form id="logoutForm" action="{% url 'logout' %}" method="post" style="display: none;">
+              {% csrf_token %}
+            </form>
+          </div>
+        </div>
+      {% else %}
+        <!-- Links para visitantes -->
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Registo</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <!-- Seção de Planos -->
+  <section class="plan-section">
+    <h2>Escolha o seu plano</h2>
+    <p class="subtitle">
+      Aproveite o melhor da nossa plataforma
+    </p>
+
+    <!-- Elementos de Confiança -->
+    <div class="trust-badges">
+      <div class="trust-item">
+        <i class="fas fa-shield-alt"></i>
+        <span>Pagamento Seguro</span>
+      </div>
+      <div class="trust-item">
+        <i class="fas fa-clock"></i>
+        <span>Cancelamento Imediato</span>
+      </div>
+    </div>
+
+    <div class="plans-container">
+      <!-- Plano Gratuito -->
+      <div class="plan-card">
+        <div class="plan-header">Gratuito</div>
+        <div class="plan-body">
+          <div>
+            <div class="plan-price">€0,00 <span class="price-period">/mês</span></div>
+            <div class="plan-discount">Poupe €29,90/mês</div>
+            <ul class="plan-features">
+              <li>
+                <i class="fas fa-check"></i>
+                <span class="feature-text">Acesso a 1 aposta diária
+                  <span class="tooltip">Apostas simples e seguras</span>
+                </span>
+              </li>
+              <li>
+                <i class="fas fa-check"></i>
+                <span class="feature-text">Suporte Básico via E-mail
+                  <span class="tooltip">Resposta em até 24 horas</span>
+                </span>
+              </li>
+              <li>
+                <i class="fas fa-check"></i>
+                <span class="feature-text">Estatísticas Limitadas
+                  <span class="tooltip">Acesso a dados básicos</span>
+                </span>
+              </li>
+              <li>
+                <i class="fas fa-check"></i>
+                <span class="feature-text">Sem compromisso
+                  <span class="tooltip">Cancele a qualquer momento</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            {% if user.is_authenticated %}
+              {% if user.profile.plan_escolhido %}
+                <a href="{% url 'apostas' %}" class="choose-plan">Ir para Apostas</a>
+              {% else %}
+                <form action="{% url 'choose_plan' plan_id=1 %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="choose-plan">Escolher Plano</button>
+                </form>
+              {% endif %}
+            {% else %}
+              <a href="{% url 'login' %}?next={% url 'choose_plan' plan_id=1 %}" class="choose-plan">
+                Escolher Plano
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <!-- Plano Premium (Indisponível no momento) -->
+      <div class="plan-card popular">
+        <div class="plan-header">Premium</div>
+        <div class="plan-body">
+          <div>
+            <div class="plan-price" style="color: #999;">
+              Indisponível
+            </div>
+            <div class="plan-discount" style="color: red;">
+              De momento, esta função não está disponível
+            </div>
+            <ul class="plan-features">
+              <li>
+                <i class="fas fa-check"></i>
+                <span class="feature-text">Acesso Ilimitado a Apostas
+                  <span class="tooltip">Todos os mercados e eventos</span>
+                </span>
+              </li>
+              <li>
+                <i class="fas fa-check"></i>
+                <span class="feature-text">Estatísticas Avançadas
+                  <span class="tooltip">Dados detalhados e análises</span>
+                </span>
+              </li>
+              <li>
+                <i class="fas fa-check"></i>
+                <span class="feature-text">Gestão de Risco Personalizada
+                  <span class="tooltip">Estratégias sob medida</span>
+                </span>
+              </li>
+              <li>
+                <i class="fas fa-check"></i>
+                <span class="feature-text">Suporte 24/7
+                  <span class="tooltip">Assistência prioritária</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <a href="#"
+               class="choose-plan"
+               style="pointer-events: none; opacity: 0.6;"
+               title="Ainda não disponível">
+               Em breve
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Toggle do dropdown ao clicar no botão
+    document.addEventListener("DOMContentLoaded", function() {
+      var dropdownToggle = document.querySelector(".dropdown-toggle");
+      if (dropdownToggle) {
+        dropdownToggle.addEventListener("click", function(event) {
+          event.stopPropagation();
+          var dropdownContent = this.nextElementSibling;
+          dropdownContent.classList.toggle("show");
+        });
+      }
+      // Fecha o dropdown quando clicar fora
+      document.addEventListener("click", function() {
+        var dropdowns = document.querySelectorAll(".dropdown-content.show");
+        dropdowns.forEach(function(dropdown) {
+          dropdown.classList.remove("show");
+        });
+      });
+    });
+  </script>
+</body>
+</html>

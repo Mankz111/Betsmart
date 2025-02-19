@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil - BetSmart</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+  <style>
+    /* Estilos Globais */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Arial", sans-serif;
+    }
+
+    /* Menu Superior */
+    .top-menu {
+      background: #1a1a1a;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .logo {
+      color: #fff;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .menu-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .menu-links a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .menu-links a:hover {
+      color: #00ff88;
+    }
+
+    /* Dropdown do Utilizador */
+    .user-dropdown {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .user-profile-link {
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5rem;
+    }
+
+    .dropdown-toggle {
+      background: transparent;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: #fff;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      z-index: 1001;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+
+    .dropdown-content a {
+      color: #333 !important;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .dropdown-content a:hover {
+      background: #f5f5f5;
+      color: #00ff88 !important;
+    }
+
+    .dropdown-content.show {
+      display: block;
+    }
+
+    .fa-caret-down {
+      font-size: 0.8em;
+      margin-left: 5px;
+    }
+
+    .fa-user-circle {
+      font-size: 1.2rem;
+    }
+
+    /* Seção de Perfil */
+    .profile-section {
+      padding: 5rem 2rem;
+      background: #f8f9fa;
+      margin-top: 80px; /* Espaço para compensar o menu fixo */
+      display: flex;
+      justify-content: center;
+    }
+
+    .profile-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      width: 400px;
+    }
+
+    .profile-card h2 {
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      text-align: center;
+    }
+
+    .profile-field {
+      margin-bottom: 1rem;
+    }
+
+    .profile-field label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .profile-field input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+
+    .profile-field span {
+      display: block;
+      padding: 0.5rem;
+      background: #f0f0f0;
+      border-radius: 5px;
+      font-size: 1rem;
+      color: #333;
+    }
+
+    .update-btn {
+      display: block;
+      width: 100%;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 30px;
+      background: #00ff88;
+      color: #1a1a1a;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 1rem;
+    }
+
+    .update-btn:hover {
+      background: #00cc6e;
+    }
+  </style>
+</head>
+<body>
+  <!-- Menu Superior -->
+  <nav class="top-menu">
+    <div class="logo">
+      <a href="/" style="text-decoration: none; color: inherit;">BetSmart</a>
+    </div>
+    <div class="menu-links">
+      <a href="{% url 'about' %}">Sobre</a>
+      {% if user.is_authenticated %}
+        <div class="user-dropdown">
+          <a href="{% url 'profile' %}" class="user-profile-link">
+            <i class="fas fa-user-circle"></i> {{ user.username }}
+          </a>
+          <button type="button" class="dropdown-toggle">
+            <i class="fas fa-caret-down"></i>
+          </button>
+          <div class="dropdown-content">
+            <a href="{% url 'profile' %}"><i class="fas fa-user"></i> Perfil</a>
+            <a href="#" onclick="document.getElementById('logoutForm').submit()">
+              <i class="fas fa-sign-out-alt"></i> Sair
+            </a>
+            <!-- Formulário de Logout Escondido -->
+            <form id="logoutForm" action="{% url 'logout' %}" method="post" style="display: none;">
+              {% csrf_token %}
+            </form>
+          </div>
+        </div>
+      {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'register' %}">Registo</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <!-- Seção de Perfil -->
+  <section class="profile-section">
+    <div class="profile-card">
+      <h2>Meu Perfil</h2>
+      <form action="{% url 'profile' %}" method="post">
+        {% csrf_token %}
+        <div class="profile-field">
+          <label for="username">Nome de Utilizador:</label>
+          <input type="text" id="username" name="username" value="{{ user.username }}" readonly>
+        </div>
+        <div class="profile-field">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" value="{{ user.email }}">
+        </div>
+        <div class="profile-field">
+          <label>Plano Selecionado:</label>
+          <span>{{ profile.plan.name|default:"Nenhum plano selecionado" }}</span>
+        </div>
+        <button type="submit" class="update-btn">Atualizar Perfil</button>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    // Toggle do dropdown ao clicar no botão
+    document.addEventListener("DOMContentLoaded", function() {
+      var dropdownToggle = document.querySelector(".dropdown-toggle");
+      if (dropdownToggle) {
+        dropdownToggle.addEventListener("click", function(event) {
+          event.stopPropagation();
+          var dropdownContent = this.nextElementSibling;
+          dropdownContent.classList.toggle("show");
+        });
+      }
+      // Fecha o dropdown quando clicar fora
+      document.addEventListener("click", function() {
+        var dropdowns = document.querySelectorAll(".dropdown-content.show");
+        dropdowns.forEach(function(dropdown) {
+          dropdown.classList.remove("show");
+        });
+      });
+    });
+  </script>
+</body>
+</html>
