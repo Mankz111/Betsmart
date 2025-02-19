@@ -26,7 +26,7 @@ with open (os.path.join(os.path.expanduser('~'), '.secrets', 'meu_projeto', 'sec
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost').split(',')
 
 
 # Application definition
