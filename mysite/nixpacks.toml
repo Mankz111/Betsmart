@@ -5,4 +5,4 @@ nixPkgs = ["python310", "python310Packages.pip", "poetry"]
 cmds = ["pip install -r requirements.txt"]
 
 [start]
-cmd = "python mysite/manage.py runserver 0.0.0.0:$PORT"
+cmd = "python manage.py runserver 0.0.0.0:$PORT"
