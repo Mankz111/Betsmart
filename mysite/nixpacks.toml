@@ -1,0 +1,3 @@
+[nixpacks]
+provider = "python"
+python_version = "3.9"
