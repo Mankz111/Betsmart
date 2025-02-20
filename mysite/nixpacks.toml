@@ -1,3 +1,8 @@
-[nixpacks]
-provider = "python"
-python_version = "3.9"
+[phases.setup]
+nixPkgs = ["python310", "pip", "poetry"]
+
+[phases.build]
+cmds = ["pip install -r requirements.txt"]
+
+[start]
+cmd = "python mysite/manage.py runserver 0.0.0.0:8000"
