@@ -34,7 +34,7 @@ SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY', 'django-insecure-default-key-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost').split(',')
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost', 'yourapp.up.railway.app').split(',')
 
 
 # Application definition
